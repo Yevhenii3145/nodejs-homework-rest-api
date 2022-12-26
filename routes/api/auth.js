@@ -2,7 +2,6 @@ const express = require("express");
 const {
   validationConstructor,
   controllerWrapper,
-  isValidId,
   isAuth,
 } = require("../../middlewares");
 const { auth } = require("../../controllers");

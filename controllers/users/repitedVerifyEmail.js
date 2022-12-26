@@ -2,7 +2,7 @@ const { NotFound, BadRequest } = require("http-errors");
 const { sendEmail } = require("../../helpers");
 const { User } = require("../../models");
 
-// const { User } = require("../../models");
+
 const repitedVerifyEmail = async (req, res) => {
   const { email } = req.body;
   if (!email) {

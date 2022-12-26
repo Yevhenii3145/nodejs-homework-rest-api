@@ -6,7 +6,7 @@ const {
   isAuth,
 } = require("../../middlewares");
 const { schemas } = require("../../models/contact");
-const { contactsControllers, auth } = require("../../controllers");
+const { contactsControllers} = require("../../controllers");
 
 const router = express.Router();
 const { getAll, getById, add, updateById, removeById, updateFavorite } =
