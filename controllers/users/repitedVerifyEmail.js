@@ -12,7 +12,11 @@ const repitedVerifyEmail = async (req, res) => {
   if (user.verify) {
     throw BadRequest("Verification has already been passed");
   }
-  sendEmail(email);
+  sendEmail(email, user.verificationToken);
+  //   await User.findOneAndUpdate(email, {
+  //     verify: true,
+  //     verificationToken: null,
+  //   });
   res.json({
     email,
   });
