@@ -1,10 +1,12 @@
 const { Conflict } = require("http-errors");
 const gravatar = require("gravatar");
+// const { nanoid } = require("nanoid");
+const { sendEmail } = require("../../helpers");
 const { User } = require("../../models");
 
 const request = {
   body: {
-    email: "ff@com",
+    email: "ff@gmail.com",
     password: "123456",
     subscription: "pro",
   },
@@ -17,16 +19,33 @@ const signup = async (req, res) => {
   if (dublicateUser) {
     throw new Conflict("Email  in use");
   }
+  const verificationToken = Date.now();
   const avatarURL = gravatar.url(email);
-  const newUser = new User({ subscription, email, avatarURL });
+  const newUser = new User({
+    subscription,
+    email,
+    avatarURL,
+    verificationToken,
+  });
+
   newUser.setPassword(password);
-  newUser.save();
+
+  await newUser.save();
+
+  const mail = {
+    to: email,
+    subject: "Подтверждение email",
+    html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${verificationToken}">Подтвердить email</a>`,
+  };
+
+  await sendEmail(mail);
 
   res.status(201).json({
     ResponseBody: {
       email,
       subscription,
       avatarURL,
+      verificationToken,
     },
   });
 };
